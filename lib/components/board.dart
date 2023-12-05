@@ -136,8 +136,6 @@ class _BoardState extends State<Board> {
     }
   }
 
-  // void hold() {}
-
   void drop() {
     while (!hasCollision(Direction.down)) {
       setState(() {
@@ -235,8 +233,6 @@ class _BoardState extends State<Board> {
           move(Direction.right);
         } else if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
           move(Direction.down);
-        } else if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-          // hold();
         } else if (event.isKeyPressed(LogicalKeyboardKey.space)) {
           drop();
         } else if (event.isKeyPressed(LogicalKeyboardKey.escape)) {
