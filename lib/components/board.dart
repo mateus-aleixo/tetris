@@ -28,6 +28,8 @@ class _BoardState extends State<Board> {
   int score = 0;
   bool _isGameOver = false;
 
+  late Timer _gameTimer;
+
   Piece currentPiece = Piece(
     type: Tetromino.values[Random().nextInt(Tetromino.values.length)],
   );
@@ -46,7 +48,7 @@ class _BoardState extends State<Board> {
   }
 
   void gameLoop(Duration frameRate) {
-    Timer.periodic(
+    _gameTimer = Timer.periodic(
       frameRate,
       (timer) {
         setState(
@@ -144,8 +146,6 @@ class _BoardState extends State<Board> {
     }
   }
 
-  // void stop() {}
-
   void rotate() {
     setState(() {
       currentPiece.rotate();
@@ -208,6 +208,10 @@ class _BoardState extends State<Board> {
   }
 
   void reset() {
+    if (_gameTimer.isActive) {
+      _gameTimer.cancel();
+    }
+
     board = List.generate(
       rows,
       (index) => List.generate(
@@ -235,8 +239,8 @@ class _BoardState extends State<Board> {
           move(Direction.down);
         } else if (event.isKeyPressed(LogicalKeyboardKey.space)) {
           drop();
-        } else if (event.isKeyPressed(LogicalKeyboardKey.escape)) {
-          // stop();
+        } else if (event.isKeyPressed(LogicalKeyboardKey.keyU)) {
+          reset();
         } else if (event.isKeyPressed(LogicalKeyboardKey.keyR)) {
           rotate();
         }
